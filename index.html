@@ -1,0 +1,2278 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Systemwoods_ | VIP Sensi Generator</title>
+  <link rel="manifest" href="manifest.json">
+<link rel="icon" type="image/png" href="favicon.png">
+<link rel="apple-touch-icon" href="favicon.png">
+
+
+<style>
+    *{margin:0;padding:0;box-sizing:border-box;font-family:Arial,Helvetica,sans-serif}
+    :root{
+      --bg:#09040f;
+
+      --panel1:#211334;
+      --panel2:#13091f;
+
+      --bar1:#2b1b45;
+      --bar2:#1a1028;
+
+      --purple1:#5b4a8c;
+      --purple2:#423263;
+
+      --list1:#a99cf4;
+      --list2:#8a7bdc;
+
+      --red:#ff174f;
+      --yellow:#ffe600;
+      --orange:#ffb000;
+
+      --white:#fff;
+      --muted:#d6caff;
+
+      /* only indicate by color */
+      --android:#7c6dff;
+      --iphone:#ff4b7b;
+
+      --shadow: rgba(255,0,80,.20);
+      --cyan:#00d5ff;
+      --mint:#00ffc8;
+    }
+
+    body{
+      min-height:100vh;
+      background:
+        radial-gradient(circle at top left,rgba(255,0,80,.25),transparent 30%),
+        radial-gradient(circle at bottom right,rgba(135,90,255,.22),transparent 35%),
+        var(--bg);
+      color:#fff;
+      display:flex;
+      justify-content:center;
+      align-items:center;
+      padding:14px;
+      overflow-x:hidden;
+    }
+
+    .app{
+      width:100%;
+      max-width:430px;
+      min-height:92vh;
+      background:linear-gradient(180deg,var(--panel1),var(--panel2));
+      border:1px solid rgba(255,255,255,.12);
+      border-radius:22px;
+      box-shadow:0 0 45px var(--shadow);
+      overflow:hidden;
+      position:relative;
+    }
+
+    .view{display:none}
+    .view.active{display:block}
+
+    .topbar{
+      height:62px;
+      background:linear-gradient(90deg,var(--bar1),var(--bar2));
+      border-bottom:1px solid rgba(255,255,255,.12);
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      padding:0 14px;
+    }
+
+    .hamb{
+      width:38px;
+      height:38px;
+      border:none;
+      background:transparent;
+      display:flex;
+      flex-direction:column;
+      justify-content:center;
+      gap:5px;
+      cursor:pointer;
+    }
+    .hamb span{
+      width:27px;
+      height:3px;
+      background:#fff;
+      border-radius:50px;
+      box-shadow:0 0 12px var(--red);
+    }
+
+    .logo{
+      font-size:20px;
+      font-weight:900;
+      letter-spacing:.5px;
+      text-transform:uppercase;
+      flex:1;
+      margin-left:8px;
+      user-select:none;
+    }
+    .logo .sys{color:#fff;text-shadow:0 0 10px #fff}
+    .logo .woods{color:#ff2b00;text-shadow:0 0 12px #ff2b00}
+
+    .logout{
+      font-size:10px;
+      font-weight:900;
+      color:#fff;
+      opacity:.85;
+      user-select:none;
+      text-transform:uppercase;
+    }
+
+    .tabs{padding:18px 18px 8px}
+    .tab-labels{
+      display:grid;
+      grid-template-columns:repeat(4,1fr);
+      font-size:10px;
+      font-weight:900;
+      letter-spacing:.7px;
+      color:#eee;
+      margin-bottom:6px;
+      text-align:center;
+      text-transform:uppercase;
+    }
+    .progress{
+      height:8px;
+      background:#b8a9df;
+      border-radius:50px;
+      overflow:hidden;
+      box-shadow:0 0 15px rgba(255,255,255,.15) inset;
+    }
+    .progress > div{
+      height:100%;
+      width:25%;
+      background:linear-gradient(90deg,var(--red),var(--yellow));
+      border-radius:50px;
+      transition:.25s;
+      box-shadow:0 0 16px var(--red);
+    }
+
+    .content{padding:22px 18px 28px}
+
+    .title{
+      font-size:24px;
+      font-weight:1000;
+      text-align:center;
+      text-transform:uppercase;
+      margin:12px 0 20px;
+      text-shadow:0 0 13px rgba(255,255,255,.65);
+    }
+
+    .form-group{margin-bottom:18px}
+    .label{
+      font-size:13px;
+      font-weight:1000;
+      letter-spacing:.6px;
+      text-transform:uppercase;
+      color:#fff;
+      margin-bottom:8px;
+    }
+
+    .select-box{
+      width:100%;
+      min-height:58px;
+      border-radius:13px;
+      border:1px solid rgba(255,255,255,.45);
+      background:linear-gradient(180deg,var(--purple1),var(--purple2));
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      padding:0 14px;
+      color:#fff;
+      font-weight:900;
+      box-shadow:0 0 16px rgba(169,137,255,.20);
+      cursor:pointer;
+      user-select:none;
+    }
+    .select-box.disabled{opacity:.65; cursor:not-allowed}
+    .arrow{font-size:16px; opacity:.9}
+
+    .btn{
+      width:100%;
+      border:none;
+      border-radius:13px;
+      padding:17px 16px;
+      font-size:14px;
+      font-weight:1000;
+      letter-spacing:1px;
+      color:#fff;
+      cursor:pointer;
+      text-transform:uppercase;
+      background:linear-gradient(90deg,#b49bff,#7d5dff);
+      box-shadow:0 0 18px rgba(169,137,255,.35);
+    }
+    .btn:disabled{opacity:.55; cursor:not-allowed}
+
+    .btn.red{
+      background:linear-gradient(90deg,var(--red),#b000ff);
+      box-shadow:0 0 22px rgba(255,23,79,.45);
+    }
+    .btn.cyan{
+      background:linear-gradient(90deg,var(--cyan),var(--mint));
+      color:#071116;
+      box-shadow:0 0 22px rgba(0,255,230,.35);
+    }
+    .btn.orange{
+      background:linear-gradient(90deg,var(--orange),#ff4b00);
+      box-shadow:0 0 18px rgba(255,176,0,.45);
+    }
+
+    .back-btn{
+      margin-top:18px;
+      color:#fff;
+      background:transparent;
+      border:none;
+      font-weight:1000;
+      cursor:pointer;
+      font-size:14px;
+      text-transform:uppercase;
+      user-select:none;
+    }
+
+    .list-page{
+      background:linear-gradient(180deg,var(--list1),var(--list2));
+      color:#fff;
+      border-radius:17px;
+      overflow:hidden;
+      box-shadow:0 0 20px rgba(169,137,255,.35);
+      border:1px solid rgba(255,255,255,.45);
+      max-height:65vh;
+      overflow-y:auto;
+    }
+    .list-page::-webkit-scrollbar{width:5px}
+    .list-page::-webkit-scrollbar-thumb{background:#fff;border-radius:10px}
+
+    .list-item{
+      min-height:57px;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:10px;
+      padding:0 16px;
+      border-bottom:1px solid rgba(255,255,255,.35);
+      font-size:15px;
+      font-weight:1000;
+      cursor:pointer;
+      text-transform:uppercase;
+      user-select:none;
+    }
+    .list-item span:first-child{text-shadow:0 0 8px rgba(255,255,255,.35)}
+    .circle{
+      width:24px;height:24px;border-radius:50%;
+      border:3px solid #fff;
+      flex-shrink:0;
+      box-shadow:0 0 12px rgba(255,255,255,.55);
+    }
+    .list-item.iphone .circle{box-shadow:0 0 14px var(--iphone)}
+    .list-item.android .circle{box-shadow:0 0 14px var(--android)}
+
+    .search{
+      width:100%;
+      height:50px;
+      border-radius:13px;
+      border:1px solid rgba(255,255,255,.45);
+      background:#4c3d78;
+      color:#fff;
+      padding:0 14px;
+      font-weight:900;
+      outline:none;
+      margin-bottom:12px;
+    }
+    .search::placeholder{color:#e6dcff}
+
+    .choice-card{
+      min-height:120px;
+      background:linear-gradient(180deg,#574681,#3d2d61);
+      border:1px solid rgba(255,255,255,.32);
+      border-radius:16px;
+      margin-bottom:16px;
+      display:flex;
+      flex-direction:column;
+      justify-content:center;
+      align-items:center;
+      gap:10px;
+      cursor:pointer;
+      box-shadow:0 0 15px rgba(169,137,255,.18);
+      transition:.2s;
+      user-select:none;
+      padding:14px;
+      text-align:center;
+    }
+    .choice-card:hover,.choice-card.selected{
+      transform:translateY(-2px);
+      border-color:var(--yellow);
+      box-shadow:0 0 28px rgba(255,230,0,.35);
+    }
+    .choice-icon{
+      width:54px;height:54px;border-radius:50%;
+      background:#b3a5e8;
+      display:flex;align-items:center;justify-content:center;
+      font-size:25px;
+      box-shadow:0 0 18px rgba(255,255,255,.25);
+    }
+    .choice-name{
+      font-weight:1000;
+      text-transform:uppercase;
+      letter-spacing:1px;
+    }
+
+    .device-card{
+      display:flex;
+      align-items:center;
+      gap:12px;
+      background:rgba(255,255,255,.08);
+      border:1px solid rgba(255,255,255,.18);
+      border-radius:15px;
+      padding:12px;
+      margin-bottom:18px;
+    }
+    .device-card img{
+      width:72px;height:72px;border-radius:16px;
+      border:1px solid rgba(255,255,255,.22);
+      object-fit:cover;
+      background:#10081b;
+    }
+    .device-text{text-align:left;flex:1}
+    .device-text .brand{color:#fff;font-weight:1000;font-size:17px;text-transform:uppercase}
+    .device-text .model{color:var(--muted);font-weight:900;margin-top:4px}
+
+    .dpi-grid{
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:13px;
+      margin:15px 0;
+    }
+    .dpi-grid .btn:nth-last-child(1){grid-column:1/-1}
+
+    /* Loading: bot + NOT red */
+    .botWrap{
+      display:flex;
+      flex-direction:column;
+      align-items:center;
+      gap:16px;
+      margin-top:22px;
+      user-select:none;
+    }
+    .botIcon{
+      width:86px;height:86px;
+      border-radius:22px;
+      background:rgba(255,255,255,.08);
+      border:1px solid rgba(255,255,255,.18);
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      box-shadow:0 0 20px rgba(0,255,230,.15);
+    }
+    .loading{
+      width:44px;height:44px;border-radius:50%;
+      border:4px solid rgba(255,255,255,.18);
+      border-top-color:var(--cyan);
+      border-right-color:var(--android);
+      border-bottom-color:rgba(255,255,255,.18);
+      border-left-color:var(--mint);
+      animation:spin 1s linear infinite;
+      margin:12px auto 0;
+    }
+    @keyframes spin{to{transform:rotate(360deg)}}
+
+    .modal-result{
+      background:linear-gradient(180deg,#9b4aa0,#5a2b78 55%,#2c183e);
+      border:2px solid var(--red);
+      box-shadow:0 0 30px rgba(255,23,79,.65);
+      border-radius:20px;
+      padding:16px;
+      position:relative;
+    }
+    .close-x{
+      position:absolute;top:12px;right:12px;
+      width:31px;height:31px;border:none;border-radius:50%;
+      background:rgba(255,255,255,.25);
+      color:#fff;font-size:20px;cursor:pointer;
+    }
+    .elite{
+      color:#ffd0e3;
+      font-size:12px;
+      font-weight:1000;
+      text-transform:uppercase;
+      text-align:center;
+      margin-top:8px;
+    }
+    .result-device{
+      text-align:center;
+      font-size:18px;
+      font-weight:1000;
+      text-transform:uppercase;
+      margin:5px 0 10px;
+      text-shadow:0 0 10px #fff;
+    }
+    .chips{
+      display:flex;gap:8px;justify-content:center;margin-bottom:14px;flex-wrap:wrap;
+    }
+    .chip{
+      background:rgba(255,255,255,.18);
+      border-radius:8px;
+      padding:7px 10px;
+      font-size:11px;
+      font-weight:1000;
+      text-transform:uppercase;
+      user-select:none;
+    }
+
+    .result-row{
+      min-height:42px;
+      border-radius:9px;
+      background:linear-gradient(90deg,#a78fdc,#7f66b7);
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      padding:0 12px;
+      margin-bottom:9px;
+      color:#fff;
+      box-shadow:inset 0 0 12px rgba(255,255,255,.12);
+    }
+    .result-row .name{
+      font-size:13px;
+      font-weight:1000;
+      text-transform:uppercase;
+      display:flex;gap:6px;align-items:center;
+    }
+    .result-row .val{font-size:18px;font-weight:1000;text-shadow:0 0 10px #fff}
+    .result-row.dpi-row-result{background:linear-gradient(90deg,#ff004f,#b00045)}
+
+    /* ===== DPI & GENERAL SETTINGS page box ===== */
+    .normal-box{
+      margin-top:12px;
+      background:rgba(0,0,0,.23);
+      border-radius:13px;
+      padding:12px;
+      border:1px solid rgba(255,255,255,.14);
+      text-align:left;
+    }
+    .normal-title{
+      font-size:12px;
+      font-weight:1000;
+      color:#fff;
+      margin-bottom:8px;
+      text-transform:uppercase;
+    }
+    .normal-grid{
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:8px;
+    }
+    .normal-mini{
+      background:rgba(255,255,255,.12);
+      border-radius:8px;
+      padding:10px 10px;
+      font-size:12px;
+      font-weight:900;
+      display:flex;
+      justify-content:space-between;
+      gap:10px;
+    }
+
+    /* Drawer */
+    .drawer{
+      position:absolute; inset:0 auto 0 0;
+      width:78%;
+      max-width:320px;
+      background:linear-gradient(180deg,#1a1028,#120a1c);
+      border-right:1px solid rgba(255,255,255,.14);
+      transform:translateX(-105%);
+      transition:.25s;
+      z-index:50;
+      padding:14px;
+      box-shadow:0 0 28px rgba(0,0,0,.45);
+    }
+    .drawer.open{transform:translateX(0)}
+    .drawer-backdrop{
+      position:absolute; inset:0;
+      background:rgba(0,0,0,.55);
+      display:none;
+      z-index:49;
+    }
+    .drawer-backdrop.open{display:block}
+
+    .drawer-head{
+      display:flex;justify-content:space-between;align-items:center;
+      padding:6px 4px 12px;
+    }
+    .drawer-title{
+      font-weight:1000;
+      letter-spacing:.5px;
+      text-transform:uppercase;
+    }
+    .drawer-title .woods{color:#ff2b00}
+    .drawer-close{
+      width:36px;height:36px;border-radius:12px;
+      border:1px solid rgba(255,255,255,.18);
+      background:rgba(255,255,255,.06);
+      color:#fff;font-size:22px;cursor:pointer;
+    }
+
+    .drawer-sub{
+      background:linear-gradient(180deg,#ff2b5f,#7b224e);
+      border:1px solid rgba(255,255,255,.18);
+      border-radius:14px;
+      padding:14px;
+      margin:6px 0 14px;
+      box-shadow:0 0 18px rgba(255,23,79,.35);
+    }
+    .drawer-sub small{color:#ffe3ec;font-weight:900}
+    .drawer-sub h3{margin:6px 0;font-size:18px;font-weight:1000}
+    .sub-bar{height:8px;border-radius:20px;background:rgba(255,255,255,.22);overflow:hidden}
+    .sub-bar div{height:100%;width:72%;background:linear-gradient(90deg,var(--yellow),#ff4b00);box-shadow:0 0 12px var(--yellow);}
+
+    .drawer-links{display:flex;flex-direction:column;gap:10px}
+    .drawer-links a{
+      text-decoration:none;
+      color:#fff;
+      font-weight:1000;
+      text-transform:uppercase;
+      font-size:12px;
+      padding:12px 12px;
+      border-radius:14px;
+      border:1px solid rgba(255,255,255,.14);
+      background:rgba(255,255,255,.05);
+    }
+    .drawer-links a:hover{border-color:rgba(255,255,255,.28)}
+
+    /* Rank combos UI */
+    .rank-toggle{
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:12px;
+      margin:10px 0 16px;
+    }
+    .rank-btn{
+      border:none;
+      border-radius:14px;
+      padding:14px 12px;
+      font-weight:1000;
+      text-transform:uppercase;
+      cursor:pointer;
+      background:linear-gradient(180deg,#574681,#3d2d61);
+      color:#fff;
+      border:1px solid rgba(255,255,255,.22);
+      box-shadow:0 0 14px rgba(169,137,255,.16);
+    }
+    .rank-btn.active{
+      border-color: var(--yellow);
+      box-shadow:0 0 22px rgba(255,230,0,.25);
+    }
+
+    .combo-card{
+      background:linear-gradient(180deg,#574681,#3d2d61);
+      border:1px solid rgba(255,255,255,.22);
+      border-radius:16px;
+      padding:14px;
+      margin-bottom:14px;
+      box-shadow:0 0 15px rgba(169,137,255,.16);
+    }
+    .combo-head{
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      gap:10px;
+      margin-bottom:10px;
+    }
+    .combo-title{
+      font-weight:1000;
+      text-transform:uppercase;
+      letter-spacing:.6px;
+      font-size:14px;
+    }
+    .combo-tag{
+      font-size:11px;
+      font-weight:1000;
+      text-transform:uppercase;
+      padding:6px 10px;
+      border-radius:10px;
+      background:rgba(255,255,255,.16);
+      border:1px solid rgba(255,255,255,.18);
+    }
+    .char-grid{
+      display:grid;
+      grid-template-columns:repeat(4,1fr);
+      gap:10px;
+      margin-top:10px;
+    }
+    .char{
+      background:rgba(255,255,255,.10);
+      border:1px solid rgba(255,255,255,.14);
+      border-radius:14px;
+      padding:10px 8px;
+      text-align:center;
+    }
+    .char img{
+      width:52px;height:52px;border-radius:50%;
+      border:2px solid rgba(255,255,255,.45);
+      box-shadow:0 0 12px rgba(0,255,230,.18);
+      background:#110718;
+      object-fit:cover;
+      display:block;
+      margin:0 auto 8px;
+    }
+    .char-name{
+      font-size:11px;
+      font-weight:1000;
+      text-transform:uppercase;
+      line-height:1.1;
+      color:#fff;
+    }
+
+    /* Best list cards */
+    .best-card{
+      background:rgba(255,255,255,.10);
+      border:1px solid rgba(255,255,255,.18);
+      border-radius:18px;
+      padding:14px;
+      margin-bottom:14px;
+      box-shadow:0 0 18px rgba(169,137,255,.12);
+      position:relative;
+      overflow:hidden;
+    }
+    .best-card.highlight{
+      border-color: var(--yellow);
+      box-shadow:0 0 26px rgba(255,230,0,.18);
+    }
+    .best-head{
+      display:flex;
+      justify-content:space-between;
+      gap:12px;
+      align-items:flex-start;
+      margin-bottom:10px;
+    }
+    .best-title{
+      font-weight:1000;
+      text-transform:uppercase;
+      font-size:16px;
+      line-height:1.15;
+      flex:1;
+    }
+    .os-pill{
+      display:inline-block;
+      padding:7px 10px;
+      border-radius:12px;
+      background:rgba(255,255,255,.14);
+      border:1px solid rgba(255,255,255,.18);
+      font-size:11px;
+      font-weight:1000;
+      text-transform:uppercase;
+      margin:6px 0 10px;
+    }
+    .stats-grid{
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:10px;
+    }
+    .stat{
+      background:rgba(0,0,0,.18);
+      border:1px solid rgba(255,255,255,.14);
+      border-radius:12px;
+      padding:10px;
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      font-weight:1000;
+      text-transform:uppercase;
+      font-size:12px;
+    }
+    .stat b{font-size:14px;text-shadow:0 0 10px rgba(255,255,255,.35)}
+
+    /* REACTIONS (emoji only; counts hidden until user votes) */
+    .reactBox{
+      display:flex;
+      flex-direction:column;
+      align-items:flex-end;
+      gap:6px;
+      min-width:84px;
+    }
+    .reactBtns{display:flex;gap:8px}
+    .reactBtn{
+      width:40px;
+      height:34px;
+      border-radius:12px;
+      border:1px solid rgba(255,255,255,.18);
+      background:rgba(0,0,0,.18);
+      cursor:pointer;
+      font-size:18px;
+      line-height:1;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      user-select:none;
+      transition:.15s;
+    }
+    .reactBtn:active{transform:scale(.98)}
+    .reactBtn.like{
+      box-shadow:0 0 14px rgba(255,230,0,.10);
+      color:var(--yellow);
+    }
+    .reactBtn.dislike{
+      box-shadow:0 0 14px rgba(255,23,79,.10);
+      color:var(--red);
+    }
+    .reactBtn.active{
+      border-color:rgba(255,255,255,.45);
+      background:rgba(255,255,255,.10);
+    }
+    .counts{
+      display:none; /* hidden until vote */
+      font-size:12px;
+      font-weight:1000;
+      letter-spacing:.2px;
+      opacity:.92;
+      user-select:none;
+      white-space:nowrap;
+    }
+    .counts.show{display:block}
+    .counts .y{color:var(--yellow)}
+    .counts .r{color:var(--red)}
+    .counts .sep{opacity:.6;padding:0 6px}
+
+    @media(max-width:380px){
+      .app{border-radius:16px}
+      .content{padding:18px 14px 24px}
+      .title{font-size:21px}
+      .result-device{font-size:16px}
+      .char-grid{grid-template-columns:repeat(2,1fr)}
+    }
+  </style>
+</head>
+
+<body>
+  <div class="app">
+
+        <!-- VIP Monetized Link Button -->
+    <div style="margin: 15px auto; text-align: center;">
+    <a href="https://shrinkme.click/AkI6QoA" target="_blank" style="display: inline-block; padding: 14px 24px; background: linear-gradient(135deg, #ff174f, #ffb000); color: #ffffff; font-size: 15px; font-weight: bold; text-decoration: none; border-radius: 10px; box-shadow: 0 4px 12px rgba(255, 23, 79, 0.4);">
+        🔥 Get VIP Headshot Sensi Code
+      </a>
+    </div>
+
+
+    <!-- Drawer -->
+    <aside class="drawer" id="drawer">
+
+      <div class="drawer-head">
+        <div class="drawer-title"><span>SYSTEM</span><span class="woods">WOODS</span></div>
+        <button class="drawer-close" id="closeDrawer">×</button>
+      </div>
+
+      <div class="drawer-sub">
+        <small>YOUR SUBSCRIPTION</small>
+        <h3>LEGEND</h3>
+        <div class="sub-bar"><div></div></div>
+        <small>Expires in 82 days</small>
+      </div>
+
+      <nav class="drawer-links">
+        <a href="#device" data-nav>Generator</a>
+        <a href="#best" data-nav>Best sensitivities</a>
+        <a href="#dpiGeneral" data-nav>DPI and general setting</a>
+        <a href="#ranks" data-nav>BR Rank / CS Rank</a>
+        <a href="https://www.youtube.com/@BadmusQuadri-c6p" target="_blank">My youtube channel</a>
+        <a href="https://vt.tiktok.com/ZSXt8NSPS/" target="_blank">Follow on TikTok</a>
+        <a href="#device" data-nav>Close session</a>
+      </nav>
+    </aside>
+    <div class="drawer-backdrop" id="drawerBackdrop"></div>
+
+    <!-- DEVICE -->
+    <div class="view" id="device">
+      <div class="topbar">
+        <button class="hamb" onclick="openDrawer()"><span></span><span></span><span></span></button>
+        <div class="logo"><span class="sys">SYSTEM</span><span class="woods">WOODS</span></div>
+        <div class="logout">CLOSE SESSION</div>
+      </div>
+
+      <div class="tabs">
+        <div class="tab-labels">
+          <span>Device</span><span>Range</span><span>DPI</span><span>Button</span>
+        </div>
+        <div class="progress"><div id="progressBar" style="width:25%"></div></div>
+      </div>
+
+      <div class="content">
+        <div class="title">WHAT DO YOU PLAY ON?</div>
+
+        <div class="form-group">
+          <div class="label">BRAND</div>
+          <div class="select-box" onclick="go('brand')">
+            <span id="brandText">Select a brand...</span>
+            <span class="arrow">▼</span>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <div class="label">EXACT MODEL</div>
+          <div class="select-box disabled" id="modelSelect" onclick="openModelFromDevice()">
+            <span id="modelText">First choose a brand</span>
+            <span class="arrow">▼</span>
+          </div>
+        </div>
+
+        <button class="btn" id="nextDevice" disabled onclick="goNextAfterModel()">NEXT</button>
+      </div>
+    </div>
+
+    <!-- BRAND LIST -->
+    <div class="view" id="brand">
+      <div class="topbar">
+        <button class="hamb" onclick="openDrawer()"><span></span><span></span><span></span></button>
+        <div class="logo"><span class="sys">SYSTEM</span><span class="woods">WOODS</span></div>
+        <div class="logout">CLOSE SESSION</div>
+      </div>
+
+      <div class="content">
+        <input class="search" id="brandSearch" placeholder="Search brand..." oninput="renderBrands()"/>
+        <div class="list-page" id="brandList"></div>
+        <button class="back-btn" onclick="go('device')">← BACK</button>
+      </div>
+    </div>
+
+    <!-- MODEL LIST -->
+    <div class="view" id="model">
+      <div class="topbar">
+        <button class="hamb" onclick="openDrawer()"><span></span><span></span><span></span></button>
+        <div class="logo"><span class="sys">SYSTEM</span><span class="woods">WOODS</span></div>
+        <div class="logout">CLOSE SESSION</div>
+      </div>
+
+      <div class="content">
+        <input class="search" id="modelSearch" placeholder="Search model..." oninput="renderModels()"/>
+        <div class="list-page" id="modelList"></div>
+        <button class="back-btn" onclick="go('device')">← BACK</button>
+      </div>
+    </div>
+
+    <!-- RANGE -->
+    <div class="view" id="range">
+      <div class="topbar">
+        <button class="hamb" onclick="openDrawer()"><span></span><span></span><span></span></button>
+        <div class="logo"><span class="sys">SYSTEM</span><span class="woods">WOODS</span></div>
+        <div class="logout">CLOSE SESSION</div>
+      </div>
+
+      <div class="tabs">
+        <div class="tab-labels">
+          <span>Device</span><span>Range</span><span>DPI</span><span>Button</span>
+        </div>
+        <div class="progress"><div style="width:50%"></div></div>
+      </div>
+
+      <div class="content">
+        <div class="title">HOW DO YOU WANT YOUR SENSI?</div>
+
+        <div class="choice-card" onclick="selectRange('high',this)">
+          <div class="choice-icon">⚡</div>
+          <div class="choice-name">HIGH</div>
+        </div>
+
+        <div class="choice-card" onclick="selectRange('medium',this)">
+          <div class="choice-icon">🕹️</div>
+          <div class="choice-name">MEDIUM</div>
+        </div>
+
+        <div class="choice-card" onclick="selectRange('low',this)">
+          <div class="choice-icon">🐢</div>
+          <div class="choice-name">LOW</div>
+        </div>
+
+        <button class="back-btn" onclick="go('device')">← BACK</button>
+      </div>
+    </div>
+
+    <!-- BUTTON SIZE -->
+    <div class="view" id="buttonSize">
+      <div class="topbar">
+        <button class="hamb" onclick="openDrawer()"><span></span><span></span><span></span></button>
+        <div class="logo"><span class="sys">SYSTEM</span><span class="woods">WOODS</span></div>
+        <div class="logout">CLOSE SESSION</div>
+      </div>
+
+      <div class="tabs">
+        <div class="tab-labels">
+          <span>Device</span><span>Range</span><span>DPI</span><span>Button</span>
+        </div>
+        <div class="progress"><div style="width:100%"></div></div>
+      </div>
+
+      <div class="content">
+        <div class="title">BUTTON SIZE</div>
+
+        <div class="choice-card" onclick="selectButtonSize('small',this)">
+          <div class="choice-icon" style="background:radial-gradient(circle,var(--yellow),#ff5d00);box-shadow:0 0 25px var(--red)">●</div>
+          <div class="choice-name">SMALL</div>
+        </div>
+
+        <div class="choice-card" onclick="selectButtonSize('medium',this)">
+          <div class="choice-icon" style="width:64px;height:64px;background:radial-gradient(circle,var(--yellow),#ff5d00);box-shadow:0 0 25px var(--red)">●</div>
+          <div class="choice-name">MEDIUM</div>
+        </div>
+
+        <div class="choice-card" onclick="selectButtonSize('large',this)">
+          <div class="choice-icon" style="width:76px;height:76px;background:radial-gradient(circle,var(--yellow),#ff5d00);box-shadow:0 0 25px var(--red)">●</div>
+          <div class="choice-name">LARGE</div>
+        </div>
+
+        <button class="back-btn" onclick="go('range')">← BACK</button>
+      </div>
+    </div>
+
+    <!-- DPI (ANDROID ONLY) -->
+    <div class="view" id="dpi">
+      <div class="topbar">
+        <button class="hamb" onclick="openDrawer()"><span></span><span></span><span></span></button>
+        <div class="logo"><span class="sys">SYSTEM</span><span class="woods">WOODS</span></div>
+        <div class="logout">CLOSE SESSION</div>
+      </div>
+
+      <div class="tabs">
+        <div class="tab-labels">
+          <span>Device</span><span>Range</span><span>DPI</span><span>Button</span>
+        </div>
+        <div class="progress"><div style="width:75%"></div></div>
+      </div>
+
+      <div class="content">
+        <div class="title">DPI</div>
+
+        <div class="device-card">
+          <img id="dpiImg" alt="">
+          <div class="device-text">
+            <div class="brand" id="dpiBrand"></div>
+            <div class="model" id="dpiModel"></div>
+          </div>
+        </div>
+
+        <button class="btn red" onclick="selectNoDpi()">NO DPI (DEFAULT)</button>
+
+        <div class="dpi-grid">
+          <button class="btn" onclick="selectDpi(368)">368</button>
+          <button class="btn" onclick="selectDpi(400)">400</button>
+          <button class="btn" onclick="selectDpi(450)">450</button>
+          <button class="btn" onclick="selectDpi(500)">500</button>
+          <button class="btn" onclick="selectDpi(550)">550</button>
+          <button class="btn" onclick="selectDpi(600)">600</button>
+        </div>
+
+        <button class="back-btn" onclick="go('buttonSize')">← BACK</button>
+      </div>
+    </div>
+
+    <!-- LOADING -->
+    <div class="view" id="loading">
+      <div class="topbar">
+        <button class="hamb" onclick="openDrawer()"><span></span><span></span><span></span></button>
+        <div class="logo"><span class="sys">SYSTEM</span><span class="woods">WOODS</span></div>
+        <div class="logout">CLOSE SESSION</div>
+      </div>
+
+      <div class="content">
+        <div class="botWrap">
+          <div class="botIcon" aria-label="Bot">
+            <svg width="58" height="58" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <defs>
+                <linearGradient id="g1" x1="0" y1="0" x2="1" y2="1">
+                  <stop stop-color="#00d5ff"/>
+                  <stop offset="1" stop-color="#7c6dff"/>
+                </linearGradient>
+                <filter id="glow" x="-50%" y="-50%" width="200%" height="200%">
+                  <feGaussianBlur stdDeviation="4" result="b"/>
+                  <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+                </filter>
+              </defs>
+              <path d="M32 10c7 0 13 3 17 8 2 3 3 6 3 10v9c0 11-9 20-20 20S12 48 12 37v-9c0-4 1-7 3-10 4-5 10-8 17-8Z"
+                fill="rgba(255,255,255,0.08)" stroke="url(#g1)" stroke-width="2" filter="url(#glow)"/>
+              <circle cx="24" cy="32" r="5" fill="url(#g1)"/>
+              <circle cx="40" cy="32" r="5" fill="url(#g1)"/>
+              <rect x="22" y="42" width="20" height="6" rx="3" fill="rgba(255,255,255,0.25)"/>
+              <path d="M32 6v6" stroke="rgba(255,255,255,0.55)" stroke-width="3" stroke-linecap="round"/>
+              <circle cx="32" cy="4" r="3" fill="#00ffc8"/>
+            </svg>
+          </div>
+
+          <div class="loading"></div>
+
+          <div class="title">GENERATING...</div>
+          <div style="text-align:center;color:#e7dcff;font-weight:900">Please wait 2–3 seconds</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- RESULT (VIP ONLY) -->
+    <div class="view" id="result">
+      <div class="topbar">
+        <button class="hamb" onclick="openDrawer()"><span></span><span></span><span></span></button>
+        <div class="logo"><span class="sys">SYSTEM</span><span class="woods">WOODS</span></div>
+        <div class="logout">CLOSE SESSION</div>
+      </div>
+
+      <div class="content">
+        <div class="modal-result">
+          <button class="close-x" onclick="go('device')">×</button>
+          <div class="elite">ELITE CONFIGURATION</div>
+          <div class="result-device" id="resultDeviceName"></div>
+
+          <div class="chips">
+            <div class="chip" id="rangeChip"></div>
+            <div class="chip" id="buttonChip"></div>
+          </div>
+
+          <div id="resultRows"></div>
+
+          <button class="btn cyan" style="margin-top:12px" onclick="copyVipOnly()">COPY SETTINGS</button>
+          <button class="btn orange" style="margin-top:10px" onclick="go('best')">COMPARE WITH ANOTHER DEVICE</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- DPI AND GENERAL SETTING (menu page) -->
+    <div class="view" id="dpiGeneral">
+      <div class="topbar">
+        <button class="hamb" onclick="openDrawer()"><span></span><span></span><span></span></button>
+        <div class="logo"><span class="sys">SYSTEM</span><span class="woods">WOODS</span></div>
+        <div class="logout">CLOSE SESSION</div>
+      </div>
+
+      <div class="content">
+        <div class="title">DPI AND GENERAL SETTING</div>
+
+        <button class="btn red" onclick="generateDpiGeneralFromLastVip()">GENERATE</button>
+
+        <div class="normal-box" id="dpiGeneralBox" style="display:none">
+          <div class="normal-title" id="dpiGeneralTitle">DPI AND GENERAL SETTING (VIP -10)</div>
+          <div class="normal-grid" id="dpiGeneralGrid"></div>
+        </div>
+
+        <button class="btn cyan" style="margin-top:12px" onclick="copyDpiGeneralOnly()">COPY SETTINGS</button>
+        <button class="back-btn" onclick="go('device')">← BACK</button>
+      </div>
+    </div>
+
+    <!-- BEST -->
+    <div class="view" id="best">
+      <div class="topbar">
+        <button class="hamb" onclick="openDrawer()"><span></span><span></span><span></span></button>
+        <div class="logo"><span class="sys">SYSTEM</span><span class="woods">WOODS</span></div>
+        <div class="logout">CLOSE SESSION</div>
+      </div>
+
+      <div class="content">
+        <div class="title">BEST <span style="color:var(--red)">SENSITIVITIES</span></div>
+        <div id="bestList"></div>
+        <button class="back-btn" onclick="go('device')">← BACK</button>
+      </div>
+    </div>
+
+    <!-- RANKS -->
+    <div class="view" id="ranks">
+      <div class="topbar">
+        <button class="hamb" onclick="openDrawer()"><span></span><span></span><span></span></button>
+        <div class="logo"><span class="sys">SYSTEM</span><span class="woods">WOODS</span></div>
+        <div class="logout">CLOSE SESSION</div>
+      </div>
+
+      <div class="content">
+        <div class="title">RANK COMBOS</div>
+
+        <div class="rank-toggle">
+          <button class="rank-btn" id="brBtn" onclick="setRank('BR')">BR RANK</button>
+          <button class="rank-btn" id="csBtn" onclick="setRank('CS')">CS RANK</button>
+        </div>
+
+        <div id="rankCombosWrap"></div>
+
+        <button class="back-btn" onclick="go('device')">← BACK</button>
+      </div>
+    </div>
+
+  </div>
+
+  <script>
+    const SENSI = {
+      android: {
+        nodpi:  { general:[168,189], redDot:[62,78],  x2:[112,149], x4:[121,152], amw:[68,89], freeLook:[33,52] },
+        dpi368: { general:[163,179], redDot:[78,98],  x2:[112,137], x4:[144,168], amw:[69,79], freeLook:[36,67] },
+        dpi400: { general:[158,169], redDot:[78,98],  x2:[99,130],  x4:[108,134], amw:[38,59], freeLook:[38,46] },
+        dpi450: { general:[158,169], redDot:[78,98],  x2:[99,130],  x4:[108,134], amw:[38,59], freeLook:[38,46] },
+        dpi500: { general:[154,169], redDot:[68,98],  x2:[98,129],  x4:[102,129], amw:[38,59], freeLook:[37,46] },
+        dpi550: { general:[154,169], redDot:[68,98],  x2:[98,129],  x4:[102,129], amw:[38,59], freeLook:[37,45] },
+        dpi600: { general:[152,166], redDot:[91,104], x2:[70,98],   x4:[97,117],  amw:[34,58], freeLook:[32,40] }
+      },
+      iphone: { general:[58,77], redDot:[43,59], x2:[51,62], x4:[53,64], amw:[52,59], freeLook:[39,49] }
+    };
+
+    const PHONE_DB = {
+    "APPLE": {
+  type: "iphone",
+  models: [
+    "iPhone SE (1st generation)",
+    "iPhone 6",
+    "iPhone 6 Plus",
+    "iPhone 6s",
+    "iPhone 6s Plus",
+    "iPhone SE (2nd generation)",
+    "iPhone 7",
+    "iPhone 7 Plus",
+    "iPhone 8",
+    "iPhone 8 Plus",
+    "iPhone X",
+    "iPhone XR",
+    "iPhone XS",
+    "iPhone XS Max",
+    "iPhone 11",
+    "iPhone 11 Pro",
+    "iPhone 11 Pro Max",
+    "iPhone SE (3rd generation)",
+    "iPhone 12 Mini",
+    "iPhone 12",
+    "iPhone 12 Pro",
+    "iPhone 12 Pro Max",
+    "iPhone 13 Mini",
+    "iPhone 13",
+    "iPhone 13 Pro",
+    "iPhone 13 Pro Max",
+    "iPhone 14",
+    "iPhone 14 Plus",
+    "iPhone 14 Pro",
+    "iPhone 14 Pro Max",
+    "iPhone 15",
+    "iPhone 15 Plus",
+    "iPhone 15 Pro",
+    "iPhone 15 Pro Max",
+    "iPhone 16",
+    "iPhone 16 Plus",
+    "iPhone 16 Pro",
+    "iPhone 16 Pro Max",
+    "iPhone 16e",
+    "iPhone 17",
+    "iPhone 17 Air",
+    "iPhone 17 Pro",
+    "iPhone 17 Pro Max"
+  ]
+},
+      "SAMSUNG": {
+  type: "android",
+  models: [
+    "Samsung Galaxy A03",
+    "Samsung Galaxy A03 Core",
+    "Samsung Galaxy A04",
+    "Samsung Galaxy A04e",
+    "Samsung Galaxy A04s",
+    "Samsung Galaxy A05",
+    "Samsung Galaxy A05s",
+    "Samsung Galaxy A06",
+    "Samsung Galaxy A07",
+    "Samsung Galaxy A10",
+    "Samsung Galaxy A11",
+    "Samsung Galaxy A12",
+    "Samsung Galaxy A13",
+    "Samsung Galaxy A14",
+    "Samsung Galaxy A15",
+    "Samsung Galaxy A16",
+    "Samsung Galaxy A17",
+    "Samsung Galaxy A20",
+    "Samsung Galaxy A21",
+    "Samsung Galaxy A22",
+    "Samsung Galaxy A23",
+    "Samsung Galaxy A24",
+    "Samsung Galaxy A25",
+    "Samsung Galaxy A26",
+    "Samsung Galaxy A30",
+    "Samsung Galaxy A31",
+    "Samsung Galaxy A32",
+    "Samsung Galaxy A33",
+    "Samsung Galaxy A34",
+    "Samsung Galaxy A35",
+    "Samsung Galaxy A36",
+    "Samsung Galaxy A50",
+    "Samsung Galaxy A51",
+    "Samsung Galaxy A52",
+    "Samsung Galaxy A53",
+    "Samsung Galaxy A54",
+    "Samsung Galaxy A55",
+    "Samsung Galaxy A56",
+    "Samsung Galaxy S20",
+    "Samsung Galaxy S21",
+    "Samsung Galaxy S22",
+    "Samsung Galaxy S23",
+    "Samsung Galaxy S24",
+    "Samsung Galaxy S25",
+    "Samsung Galaxy S25 Ultra"
+  ]
+},
+      "REDMI": {
+  type: "android",
+  models: [
+    "Redmi A1",
+    "Redmi A1+",
+    "Redmi A2",
+    "Redmi A2+",
+    "Redmi A3",
+    "Redmi A3x",
+    "Redmi A4 5G",
+    "Redmi 8",
+    "Redmi 8A",
+    "Redmi 9",
+    "Redmi 9A",
+    "Redmi 9AT",
+    "Redmi 9C",
+    "Redmi 9T",
+    "Redmi 10",
+    "Redmi 10A",
+    "Redmi 10C",
+    "Redmi 10 Prime",
+    "Redmi 11 Prime",
+    "Redmi 12",
+    "Redmi 12 5G",
+    "Redmi 12C",
+    "Redmi 13",
+    "Redmi 13 5G",
+    "Redmi 13C",
+    "Redmi 14C",
+    "Redmi Turbo 3",
+    "Redmi Turbo 4",
+    "Redmi Note 8",
+    "Redmi Note 8 Pro",
+    "Redmi Note 9",
+    "Redmi Note 9 Pro",
+    "Redmi Note 9S",
+    "Redmi Note 10",
+    "Redmi Note 10 5G",
+    "Redmi Note 10 Pro",
+    "Redmi Note 10 Pro Max",
+    "Redmi Note 11",
+    "Redmi Note 11S",
+    "Redmi Note 11 Pro",
+    "Redmi Note 11 Pro+",
+    "Redmi Note 12",
+    "Redmi Note 12 5G",
+    "Redmi Note 12S",
+    "Redmi Note 12 Pro",
+    "Redmi Note 12 Pro+",
+    "Redmi Note 13",
+    "Redmi Note 13 5G",
+    "Redmi Note 13 Pro",
+    "Redmi Note 13 Pro+",
+    "Redmi Note 14",
+    "Redmi Note 14 5G",
+    "Redmi Note 14 Pro",
+    "Redmi Note 14 Pro+",
+    "Redmi K40",
+    "Redmi K40 Pro",
+    "Redmi K50",
+    "Redmi K50 Pro",
+    "Redmi K60",
+    "Redmi K60 Pro",
+    "Redmi K70",
+    "Redmi K70 Pro",
+    "Redmi K80",
+    "Redmi K80 Pro"
+  ]
+},
+      "XIAOMI": {type:"android",models:["Xiaomi 12","Xiaomi 13","Xiaomi 14","Xiaomi 15"]},
+      "HONOR": {type:"android",models:["Honor 90","Honor 100","Honor 200","Honor 400 5G","Honor Magic 6"]},
+      "INFINIX": {
+  type: "android",
+  models: [
+    "Infinix Smart",
+    "Infinix Smart 2",
+    "Infinix Smart 3",
+    "Infinix Smart 4",
+    "Infinix Smart 5",
+    "Infinix Smart 6",
+    "Infinix Smart 7",
+    "Infinix Smart 7 HD",
+    "Infinix Smart 8",
+    "Infinix Smart 8 HD",
+    "Infinix Smart 9",
+    "Infinix Smart 9 HD",
+
+    "Infinix Hot 8",
+    "Infinix Hot 9",
+    "Infinix Hot 10",
+    "Infinix Hot 10 Play",
+    "Infinix Hot 11",
+    "Infinix Hot 11 Play",
+    "Infinix Hot 12",
+    "Infinix Hot 12 Play",
+    "Infinix Hot 12 Pro",
+    "Infinix Hot 20",
+    "Infinix Hot 20 Play",
+    "Infinix Hot 20i",
+    "Infinix Hot 30",
+    "Infinix Hot 30 Play",
+    "Infinix Hot 30i",
+    "Infinix Hot 40",
+    "Infinix Hot 40 Pro",
+    "Infinix Hot 40i",
+    "Infinix Hot 50",
+    "Infinix Hot 50 Pro",
+    "Infinix Hot 50i",
+
+    "Infinix Note 10",
+    "Infinix Note 10 Pro",
+    "Infinix Note 11",
+    "Infinix Note 11 Pro",
+    "Infinix Note 12",
+    "Infinix Note 12 G96",
+    "Infinix Note 12 VIP",
+    "Infinix Note 30",
+    "Infinix Note 30 Pro",
+    "Infinix Note 30 VIP",
+    "Infinix Note 40",
+    "Infinix Note 40 Pro",
+    "Infinix Note 40 Pro+",
+    "Infinix Note 50",
+    "Infinix Note 50 Pro",
+    "Infinix Note 50 Pro+",
+
+    "Infinix Zero 8",
+    "Infinix Zero X",
+    "Infinix Zero X Pro",
+    "Infinix Zero 20",
+    "Infinix Zero 30",
+    "Infinix Zero 30 5G",
+    "Infinix Zero 40",
+    "Infinix Zero Flip",
+
+    "Infinix GT 10 Pro",
+    "Infinix GT 20 Pro"
+  ]
+},
+      "TECNO": {
+  type: "android",
+  models: [
+    "Tecno Pop 2",
+    "Tecno Pop 3",
+    "Tecno Pop 4",
+    "Tecno Pop 5",
+    "Tecno Pop 5 Go",
+    "Tecno Pop 5 LTE",
+    "Tecno Pop 6",
+    "Tecno Pop 6 Go",
+    "Tecno Pop 7",
+    "Tecno Pop 7 Pro",
+    "Tecno Pop 8",
+    "Tecno Pop 9",
+    "Tecno Pop 9 5G",
+
+    "Tecno Spark 6",
+    "Tecno Spark 7",
+    "Tecno Spark 7 Pro",
+    "Tecno Spark 8",
+    "Tecno Spark 8 Pro",
+    "Tecno Spark 9",
+    "Tecno Spark 9 Pro",
+    "Tecno Spark 10",
+    "Tecno Spark 10 Pro",
+    "Tecno Spark 10 5G",
+    "Tecno Spark 20",
+    "Tecno Spark 20 Pro",
+    "Tecno Spark 20 Pro+",
+    "Tecno Spark 20C",
+    "Tecno Spark Go 2023",
+    "Tecno Spark Go 2024",
+    "Tecno Spark 30",
+    "Tecno Spark 30 Pro",
+    "Tecno Spark 30C",
+    "Tecno Spark 30 5G",
+
+    "Tecno Camon 15",
+    "Tecno Camon 16",
+    "Tecno Camon 17",
+    "Tecno Camon 18",
+    "Tecno Camon 19",
+    "Tecno Camon 19 Pro",
+    "Tecno Camon 20",
+    "Tecno Camon 20 Pro",
+    "Tecno Camon 20 Premier",
+    "Tecno Camon 30",
+    "Tecno Camon 30 Pro",
+    "Tecno Camon 30 Premier",
+    "Tecno Camon 40",
+    "Tecno Camon 40 Pro",
+    "Tecno Camon 40 Premier",
+
+    "Tecno Pova",
+    "Tecno Pova 2",
+    "Tecno Pova 3",
+    "Tecno Pova 4",
+    "Tecno Pova 4 Pro",
+    "Tecno Pova 5",
+    "Tecno Pova 5 Pro",
+    "Tecno Pova 6",
+    "Tecno Pova 6 Pro",
+    "Tecno Pova 7",
+    "Tecno Pova 7 Pro",
+    "Tecno Pova Neo",
+    "Tecno Pova Neo 2",
+    "Tecno Pova Neo 3",
+
+    "Tecno Phantom X",
+    "Tecno Phantom X2",
+    "Tecno Phantom X2 Pro",
+    "Tecno Phantom V Flip",
+    "Tecno Phantom V Fold",
+    "Tecno Phantom Ultimate"
+  ]
+},
+      "OPPO": {
+  type: "android",
+  models: [
+    "Oppo A1",
+    "Oppo A1 Pro",
+    "Oppo A2",
+    "Oppo A2 Pro",
+    "Oppo A3",
+    "Oppo A3 Pro",
+    "Oppo A5",
+    "Oppo A5 (2020)",
+    "Oppo A5 Pro",
+    "Oppo A7",
+    "Oppo A9",
+    "Oppo A11",
+    "Oppo A12",
+    "Oppo A15",
+    "Oppo A16",
+    "Oppo A16K",
+    "Oppo A17",
+    "Oppo A18",
+    "Oppo A31",
+    "Oppo A38",
+    "Oppo A53",
+    "Oppo A54",
+    "Oppo A55",
+    "Oppo A57",
+    "Oppo A58",
+    "Oppo A59",
+    "Oppo A60",
+    "Oppo A74",
+    "Oppo A76",
+    "Oppo A77",
+    "Oppo A78",
+    "Oppo A79",
+    "Oppo A80",
+    "Oppo A94",
+    "Oppo A95",
+    "Oppo A96",
+    "Oppo A98",
+    "Oppo Reno",
+    "Oppo Reno2",
+    "Oppo Reno3",
+    "Oppo Reno4",
+    "Oppo Reno5",
+    "Oppo Reno6",
+    "Oppo Reno7",
+    "Oppo Reno8",
+    "Oppo Reno8 Pro",
+    "Oppo Reno9",
+    "Oppo Reno10",
+    "Oppo Reno10 Pro",
+    "Oppo Reno11",
+    "Oppo Reno11 Pro",
+    "Oppo Reno12",
+    "Oppo Reno12 Pro",
+    "Oppo Reno13",
+    "Oppo Reno13 Pro",
+    "Oppo Find X2",
+    "Oppo Find X2 Pro",
+    "Oppo Find X3",
+    "Oppo Find X3 Pro",
+    "Oppo Find X5",
+    "Oppo Find X5 Pro",
+    "Oppo Find X6",
+    "Oppo Find X6 Pro",
+    "Oppo Find X7",
+    "Oppo Find X7 Ultra",
+    "Oppo Find X8",
+    "Oppo Find X8 Pro",
+    "Oppo Find N",
+    "Oppo Find N2",
+    "Oppo Find N3",
+    "Oppo Find N5",
+    "Oppo K10",
+    "Oppo K11",
+    "Oppo K12",
+    "Oppo F19",
+    "Oppo F21 Pro",
+    "Oppo F23",
+    "Oppo F25 Pro",
+    "Oppo F27",
+    "Oppo F27 Pro"
+  ]
+},
+      "VIVO": {
+  type: "android",
+  models: [
+    "Vivo Y02",
+    "Vivo Y02A",
+    "Vivo Y03",
+    "Vivo Y03t",
+    "Vivo Y04",
+    "Vivo Y11",
+    "Vivo Y12",
+    "Vivo Y15",
+    "Vivo Y16",
+    "Vivo Y17",
+    "Vivo Y18",
+    "Vivo Y19",
+    "Vivo Y20",
+    "Vivo Y20s",
+    "Vivo Y21",
+    "Vivo Y21A",
+    "Vivo Y22",
+    "Vivo Y22s",
+    "Vivo Y27",
+    "Vivo Y28",
+    "Vivo Y30",
+    "Vivo Y31",
+    "Vivo Y33s",
+    "Vivo Y35",
+    "Vivo Y36",
+    "Vivo Y37",
+    "Vivo Y38",
+    "Vivo Y50",
+    "Vivo Y51",
+    "Vivo Y53s",
+    "Vivo Y55",
+    "Vivo Y56",
+    "Vivo Y58",
+    "Vivo Y72",
+    "Vivo Y73",
+    "Vivo Y75",
+    "Vivo Y76",
+    "Vivo Y77",
+    "Vivo Y78",
+    "Vivo Y81",
+    "Vivo Y91",
+    "Vivo Y100",
+    "Vivo V20",
+    "Vivo V21",
+    "Vivo V23",
+    "Vivo V25",
+    "Vivo V27",
+    "Vivo V29",
+    "Vivo V30",
+    "Vivo V30 Pro",
+    "Vivo V40",
+    "Vivo V40 Pro",
+    "Vivo X50",
+    "Vivo X60",
+    "Vivo X70",
+    "Vivo X80",
+    "Vivo X90",
+    "Vivo X90 Pro",
+    "Vivo X100",
+    "Vivo X100 Pro",
+    "Vivo X100 Ultra",
+    "Vivo X200",
+    "Vivo X200 Pro",
+    "Vivo X200 Ultra",
+    "Vivo T1",
+    "Vivo T2",
+    "Vivo T3",
+    "Vivo T3 Pro",
+    "Vivo T4",
+    "Vivo T4x",
+    "Vivo iQOO Z7",
+    "Vivo iQOO Z9",
+    "Vivo iQOO Neo 9",
+    "Vivo iQOO Neo 10",
+    "Vivo iQOO 11",
+    "Vivo iQOO 12",
+    "Vivo iQOO 13"
+  ]
+},
+      "REALME": {
+  type: "android",
+  models: [
+    "Realme C1",
+    "Realme C2",
+    "Realme C3",
+    "Realme C11",
+    "Realme C12",
+    "Realme C15",
+    "Realme C17",
+    "Realme C20",
+    "Realme C21",
+    "Realme C21Y",
+    "Realme C25",
+    "Realme C25Y",
+    "Realme C30",
+    "Realme C30s",
+    "Realme C31",
+    "Realme C33",
+    "Realme C35",
+    "Realme C51",
+    "Realme C53",
+    "Realme C55",
+    "Realme C61",
+    "Realme C63",
+    "Realme C65",
+    "Realme C67",
+    "Realme C71",
+    "Realme C73",
+    "Realme C75",
+    "Realme Narzo 20",
+    "Realme Narzo 30",
+    "Realme Narzo 50",
+    "Realme Narzo 60",
+    "Realme Narzo 70",
+    "Realme Narzo 70 Pro",
+    "Realme Narzo N53",
+    "Realme Narzo N55",
+    "Realme Narzo N61",
+    "Realme 8",
+    "Realme 8 Pro",
+    "Realme 9",
+    "Realme 9 Pro",
+    "Realme 9 Pro+",
+    "Realme 10",
+    "Realme 10 Pro",
+    "Realme 10 Pro+",
+    "Realme 11",
+    "Realme 11 Pro",
+    "Realme 11 Pro+",
+    "Realme 12",
+    "Realme 12 Pro",
+    "Realme 12 Pro+",
+    "Realme 13",
+    "Realme 13 Pro",
+    "Realme 13 Pro+",
+    "Realme 14",
+    "Realme 14 Pro",
+    "Realme 14 Pro+",
+    "Realme GT",
+    "Realme GT Neo",
+    "Realme GT Neo 2",
+    "Realme GT Neo 3",
+    "Realme GT Neo 5",
+    "Realme GT 2",
+    "Realme GT 2 Pro",
+    "Realme GT 3",
+    "Realme GT 5",
+    "Realme GT 5 Pro",
+    "Realme GT 6",
+    "Realme GT 6T",
+    "Realme GT 7",
+    "Realme GT 7 Pro"
+  ]
+},
+      "GOOGLE PIXEL": {type:"android",models:["Pixel 6","Pixel 7","Pixel 8","Pixel 9"]}
+    };
+
+    const RANK_COMBOS = {
+      BR: [
+        {role:"Rusher", chars:["Tatsuya","Luna","Kelly","Dasha"]},
+        {role:"Rusher", chars:["Jota","Hayato","Moco","Alok"]},
+        {role:"Rusher", chars:["Wukong","Chrono","Skyler","Kelly"]},
+        {role:"Rusher", chars:["Tatsuya","Hayato","Jota","Dasha"]},
+        {role:"Rusher", chars:["Luna","Moco","Alok","Skyler"]},
+        {role:"Rusher", chars:["Chrono","Wukong","Kelly","Hayato"]},
+        {role:"Rusher", chars:["Jota","Tatsuya","Skyler","Alok"]},
+        {role:"Rusher", chars:["Dasha","Kelly","Moco","Wukong"]},
+        {role:"Rusher", chars:["Hayato","Chrono","Alok","Luna"]},
+        {role:"Rusher", chars:["Tatsuya","Jota","Moco","Dasha"]}
+      ],
+      CS: [
+        {role:"Rusher", chars:["Tatsuya","Luna","Kelly","Dasha"]},
+        {role:"Rusher", chars:["Jota","Hayato","Alok","Moco"]},
+        {role:"Rusher", chars:["Skyler","Chrono","Kelly","Hayato"]},
+        {role:"Rusher", chars:["Wukong","Jota","Dasha","Alok"]},
+        {role:"Rusher", chars:["Luna","Tatsuya","Moco","Skyler"]},
+        {role:"Rusher", chars:["Chrono","Hayato","Kelly","Dasha"]},
+        {role:"Rusher", chars:["Jota","Skyler","Alok","Moco"]},
+        {role:"Rusher", chars:["Tatsuya","Wukong","Kelly","Hayato"]},
+        {role:"Rusher", chars:["Luna","Chrono","Alok","Dasha"]},
+        {role:"Rusher", chars:["Moco","Skyler","Jota","Tatsuya"]}
+      ]
+    };
+
+    const state = { brand:"", model:"", range:"", button:"", dpi:"" };
+    let generatedVip = null;
+
+    function $(id){return document.getElementById(id)}
+    function isIphone(){return PHONE_DB[state.brand]?.type === "iphone"}
+    function isAndroid(){return PHONE_DB[state.brand]?.type === "android"}
+
+    function go(view){
+      document.querySelectorAll(".view").forEach(v=>v.classList.remove("active"));
+      const el = document.getElementById(view);
+      if(el) el.classList.add("active");
+      window.location.hash = view;
+
+      if(view==="brand") renderBrands();
+      if(view==="model") renderModels();
+      if(view==="dpi") prepareDpi();
+      if(view==="best") renderBest(24);
+      if(view==="ranks") setRank(currentRank);
+      if(view==="dpiGeneral") resetDpiGeneralUI();
+    }
+
+    function openDrawer(){
+      $("drawer").classList.add("open");
+      $("drawerBackdrop").classList.add("open");
+    }
+    function closeDrawer(){
+      $("drawer").classList.remove("open");
+      $("drawerBackdrop").classList.remove("open");
+    }
+    $("closeDrawer").onclick = closeDrawer;
+    $("drawerBackdrop").onclick = closeDrawer;
+    document.querySelectorAll("[data-nav]").forEach(a=>a.onclick = ()=>closeDrawer());
+
+    window.addEventListener("hashchange",()=>{
+      const v = location.hash.replace("#","");
+      if(v && document.getElementById(v)) go(v);
+    });
+
+    function renderBrands(){
+      const q = ($("brandSearch").value || "").toLowerCase();
+      const list = $("brandList");
+      list.innerHTML = "";
+
+      Object.keys(PHONE_DB)
+        .filter(b=>b.toLowerCase().includes(q))
+        .forEach(brand=>{
+          const item = document.createElement("div");
+          item.className = "list-item " + (PHONE_DB[brand].type === "iphone" ? "iphone" : "android");
+          item.innerHTML = `<span>${brand}</span><span class="circle"></span>`;
+          item.onclick = ()=>{
+            state.brand = brand;
+            state.model = "";
+            state.range = "";
+            state.button = "";
+            state.dpi = "";
+            generatedVip = null;
+
+            $("brandText").textContent = brand;
+            $("modelText").textContent = "Select a model...";
+            $("modelSelect").classList.remove("disabled");
+            $("nextDevice").disabled = true;
+            go("device");
+          };
+          list.appendChild(item);
+        });
+    }
+
+    function openModelFromDevice(){
+      if(!state.brand) return;
+      go("model");
+    }
+
+    function renderModels(){
+      if(!state.brand) return go("brand");
+
+      const q = ($("modelSearch").value || "").toLowerCase();
+      const list = $("modelList");
+      list.innerHTML = "";
+
+      PHONE_DB[state.brand].models
+        .filter(m=>m.toLowerCase().includes(q))
+        .forEach(model=>{
+          const item = document.createElement("div");
+          item.className = "list-item " + (isIphone() ? "iphone" : "android");
+          item.innerHTML = `<span>${model}</span><span class="circle"></span>`;
+          item.onclick = ()=>{
+            state.model = model;
+            state.range = "";
+            state.button = "";
+            state.dpi = "";
+            generatedVip = null;
+
+            $("modelText").textContent = model;
+            $("nextDevice").disabled = false;
+            go("device");
+          };
+          list.appendChild(item);
+        });
+    }
+
+    function goNextAfterModel(){
+      if(!state.brand || !state.model) return;
+      go("range");
+    }
+
+    function selectRange(value, el){
+      state.range = value;
+      document.querySelectorAll("#range .choice-card").forEach(x=>x.classList.remove("selected"));
+      el.classList.add("selected");
+      setTimeout(()=>go("buttonSize"),220);
+    }
+
+    function selectButtonSize(value, el){
+      state.button = value;
+      document.querySelectorAll("#buttonSize .choice-card").forEach(x=>x.classList.remove("selected"));
+      el.classList.add("selected");
+
+      setTimeout(()=>{
+        if(isIphone()){
+          state.dpi = "";
+          startGenerate();
+        }else{
+          go("dpi");
+        }
+      },220);
+    }
+
+    function prepareDpi(){
+      if(!isAndroid()){
+        startGenerate();
+        return;
+      }
+      $("dpiBrand").textContent = state.brand;
+      $("dpiModel").textContent = state.model;
+      $("dpiImg").src = phoneImage(state.brand, state.model);
+    }
+
+    function selectNoDpi(){
+      state.dpi = "NO DPI (DEFAULT)";
+      startGenerate();
+    }
+    function selectDpi(v){
+      state.dpi = String(v);
+      startGenerate();
+    }
+
+    function startGenerate(){
+      go("loading");
+      setTimeout(()=>{
+        generateVipOnly();
+        go("result");
+      },2500);
+    }
+
+    function getRangesForVip(){
+      if(isIphone()) return SENSI.iphone;
+      if(state.dpi === "NO DPI (DEFAULT)") return SENSI.android.nodpi;
+      return SENSI.android["dpi"+state.dpi] || SENSI.android.dpi450;
+    }
+
+    function rand(min,max){return Math.floor(Math.random()*(max-min+1))+min}
+
+    function byRange([min,max]){
+      const span = max - min;
+      let a=min,b=max;
+
+      if(state.range==="high"){
+        a = Math.round(min + span*.65); b = max;
+      }else if(state.range==="medium"){
+        a = Math.round(min + span*.35); b = Math.round(min + span*.75);
+      }else if(state.range==="low"){
+        a = min; b = Math.round(min + span*.45);
+      }
+      return rand(a,b);
+    }
+
+    function buttonValue(){
+      if(state.button==="small") return rand(30,33) + "%";
+      if(state.button==="medium") return rand(34,36) + "%";
+      return rand(37,39) + "%";
+    }
+
+    function minus10(v){
+      if(typeof v === "string" && v.includes("%")){
+        const n = parseInt(v,10);
+        return Math.max(0,n-10) + "%";
+      }
+      return Math.max(0, v - 10);
+    }
+
+    function saveLastVip(vipPack){
+      try{ localStorage.setItem("sw_lastVip", JSON.stringify(vipPack)); }catch{}
+    }
+    function readLastVip(){
+      try{ return JSON.parse(localStorage.getItem("sw_lastVip") || "null"); }catch{ return null; }
+    }
+
+    function generateVipOnly(){
+      const r = getRangesForVip();
+
+      const vip = {
+        brand: state.brand,
+        model: state.model,
+        range: state.range,
+        button: state.button,
+
+        general: byRange(r.general),
+        redDot: byRange(r.redDot),
+        x2: byRange(r.x2),
+        x4: byRange(r.x4),
+        amw: byRange(r.amw),
+        freeLook: byRange(r.freeLook),
+        buttonSize: buttonValue(),
+
+        dpi: isAndroid() ? (state.dpi || "NO DPI (DEFAULT)") : ""
+      };
+
+      generatedVip = vip;
+      saveLastVip(vip);
+
+      $("resultDeviceName").textContent = vip.brand + " " + vip.model;
+      $("rangeChip").textContent = "RANGE " + String(vip.range || "").toUpperCase();
+      $("buttonChip").textContent = "BUTTON " + String(vip.button || "").toUpperCase();
+
+      let rows = `
+        <div class="result-row"><div class="name">🔥 General</div><div class="val">${vip.general}</div></div>
+        <div class="result-row"><div class="name">🔴 Red Dot</div><div class="val">${vip.redDot}</div></div>
+        <div class="result-row"><div class="name">🎯 2x Scope</div><div class="val">${vip.x2}</div></div>
+        <div class="result-row"><div class="name">🎯 4x Scope</div><div class="val">${vip.x4}</div></div>
+        <div class="result-row"><div class="name">🎯 AWM</div><div class="val">${vip.amw}</div></div>
+        <div class="result-row"><div class="name">👁 Free Look</div><div class="val">${vip.freeLook}</div></div>
+        <div class="result-row"><div class="name">🔘 Button Size</div><div class="val">${vip.buttonSize}</div></div>
+      `;
+      if(isAndroid()){
+        rows += `<div class="result-row dpi-row-result"><div class="name">📐 DPI</div><div class="val">${vip.dpi}</div></div>`;
+      }
+
+      $("resultRows").innerHTML = rows;
+    }
+
+    function copyVipOnly(){
+      const vip = generatedVip || readLastVip();
+      if(!vip){
+        alert("Generate VIP Sensi first.");
+        return;
+      }
+
+      let text =
+`ELITE CONFIGURATION
+${vip.brand} ${vip.model}
+
+Range: ${vip.range}
+Button: ${vip.button}
+
+VIP SENSI
+General: ${vip.general}
+Red Dot: ${vip.redDot}
+2x Scope: ${vip.x2}
+4x Scope: ${vip.x4}
+AWM: ${vip.amw}
+Free Look: ${vip.freeLook}
+Button Size: ${vip.buttonSize}`;
+
+      if(vip.dpi && PHONE_DB[vip.brand]?.type === "android"){
+        text += `\nDPI: ${vip.dpi}`;
+      }
+
+      navigator.clipboard.writeText(text).then(()=>alert("Copied!"));
+    }
+
+    function resetDpiGeneralUI(){
+      const box = $("dpiGeneralBox");
+      if(!box) return;
+      box.style.display = "none";
+      $("dpiGeneralGrid").innerHTML = "";
+      $("dpiGeneralTitle").textContent = "DPI AND GENERAL SETTING (VIP -10)";
+    }
+
+    function generateDpiGeneralFromLastVip(){
+      const vip = readLastVip();
+      if(!vip){
+        alert("Generate VIP Sensi first, then come back here.");
+        return;
+      }
+
+      const normal = {
+        general: minus10(vip.general),
+        redDot: minus10(vip.redDot),
+        x2: minus10(vip.x2),
+        x4: minus10(vip.x4),
+        amw: minus10(vip.amw),
+        freeLook: minus10(vip.freeLook),
+        button: minus10(vip.buttonSize),
+        dpi: (PHONE_DB[vip.brand]?.type === "android") ? vip.dpi : ""
+      };
+
+      $("dpiGeneralBox").style.display = "block";
+      $("dpiGeneralTitle").textContent = `${vip.brand} ${vip.model} • (VIP -10)`;
+
+      const parts = [
+        ["General", normal.general],
+        ["Red Dot", normal.redDot],
+        ["2x Scope", normal.x2],
+        ["4x Scope", normal.x4],
+        ["AWM", normal.amw],
+        ["Free Look", normal.freeLook],
+        ["Button", normal.button]
+      ];
+      if(normal.dpi) parts.push(["DPI", normal.dpi]);
+
+      $("dpiGeneralGrid").innerHTML = parts.map(([k,v]) =>
+        `<div class="normal-mini"><span>${k}</span><b>${v}</b></div>`
+      ).join("");
+    }
+
+    function copyDpiGeneralOnly(){
+      const vip = readLastVip();
+      if(!vip){
+        alert("Generate VIP Sensi first.");
+        return;
+      }
+
+      const normal = {
+        general: minus10(vip.general),
+        redDot: minus10(vip.redDot),
+        x2: minus10(vip.x2),
+        x4: minus10(vip.x4),
+        amw: minus10(vip.amw),
+        freeLook: minus10(vip.freeLook),
+        button: minus10(vip.buttonSize),
+        dpi: (PHONE_DB[vip.brand]?.type === "android") ? vip.dpi : ""
+      };
+
+      let text =
+`DPI AND GENERAL SETTING (VIP -10)
+${vip.brand} ${vip.model}
+
+General: ${normal.general}
+Red Dot: ${normal.redDot}
+2x Scope: ${normal.x2}
+4x Scope: ${normal.x4}
+AWM: ${normal.amw}
+Free Look: ${normal.freeLook}
+Button: ${normal.button}`;
+      if(normal.dpi) text += `\nDPI: ${normal.dpi}`;
+
+      navigator.clipboard.writeText(text).then(()=>alert("Copied!"));
+    }
+
+    function phoneImage(brand,model){
+      const type = PHONE_DB[brand]?.type;
+      const color = type === "iphone" ? "#ff174f" : "#7c6dff";
+      const title = (brand+" "+model).slice(0,24);
+      const svg = `
+      <svg xmlns="http://www.w3.org/2000/svg" width="200" height="200">
+        <defs>
+          <linearGradient id="g" x1="0" x2="1">
+            <stop stop-color="#16091f"/>
+            <stop offset="1" stop-color="${color}"/>
+          </linearGradient>
+        </defs>
+        <rect width="200" height="200" rx="26" fill="#10071a"/>
+        <rect x="54" y="22" width="92" height="156" rx="18" fill="url(#g)" stroke="rgba(255,255,255,.35)" stroke-width="3"/>
+        <circle cx="100" cy="42" r="6" fill="#fff"/>
+        <text x="100" y="190" text-anchor="middle" fill="#fff" font-size="14" font-family="Arial" font-weight="900">${title}</text>
+      </svg>`;
+      return "data:image/svg+xml;charset=utf-8,"+encodeURIComponent(svg);
+    }
+
+    /* ========= BEST: reactions =========
+       NOTE: Without a server, “people count” is only saved on the user device.
+       This code hides counts until the user votes (your requirement).
+    */
+    function bestCardId(b,m){
+      return (b + "_" + m).replace(/[^a-z0-9]+/gi,"_").toLowerCase();
+    }
+
+    function hash32(str){
+      let h = 2166136261;
+      for(let i=0;i<str.length;i++){
+        h ^= str.charCodeAt(i);
+        h = Math.imul(h, 16777619);
+      }
+      return h >>> 0;
+    }
+
+    function seedCounts(cardId){
+      const h = hash32(cardId);
+      const likes = 50 + (h % 900);     // 50..949
+      const dislikes = 3 + (h % 80);    // 3..82
+      return {likes, dislikes};
+    }
+
+    function loadReacts(cardId){
+      const key = "best_reacts_" + cardId;
+      try{
+        const raw = localStorage.getItem(key);
+        if(raw){
+          const parsed = JSON.parse(raw);
+          if(parsed && typeof parsed.likes==="number" && typeof parsed.dislikes==="number"){
+            return parsed;
+          }
+        }
+      }catch{}
+      const seed = seedCounts(cardId);
+      return { likes: seed.likes, dislikes: seed.dislikes, vote: null }; // vote: 'like'|'dislike'|null
+    }
+
+    function saveReacts(cardId, data){
+      const key = "best_reacts_" + cardId;
+      try{ localStorage.setItem(key, JSON.stringify(data)); }catch{}
+    }
+
+    function updateReactUI(cardEl, data){
+      const likeBtn = cardEl.querySelector(".reactBtn.like");
+      const dislikeBtn = cardEl.querySelector(".reactBtn.dislike");
+      const counts = cardEl.querySelector(".counts");
+      const likeCount = cardEl.querySelector(".likeCount");
+      const dislikeCount = cardEl.querySelector(".dislikeCount");
+
+      likeBtn.classList.toggle("active", data.vote === "like");
+      dislikeBtn.classList.toggle("active", data.vote === "dislike");
+
+      likeCount.textContent = data.likes;
+      dislikeCount.textContent = data.dislikes;
+
+      // counts hidden until user votes
+      counts.classList.toggle("show", !!data.vote);
+    }
+
+    function vote(cardEl, cardId, which){
+      const data = loadReacts(cardId);
+
+      // if same vote: keep it (no toggle off) — simplest and matches “must vote”
+      if(data.vote === which){
+        // do nothing
+      } else {
+        // change vote if needed
+        if(data.vote === "like") data.likes = Math.max(0, data.likes - 1);
+        if(data.vote === "dislike") data.dislikes = Math.max(0, data.dislikes - 1);
+
+        if(which === "like") data.likes += 1;
+        if(which === "dislike") data.dislikes += 1;
+
+        data.vote = which;
+      }
+
+      saveReacts(cardId, data);
+      updateReactUI(cardEl, data);
+    }
+
+    function renderBest(count=24){
+      const brands = Object.keys(PHONE_DB);
+      const list = document.getElementById("bestList");
+      list.innerHTML = "";
+
+      for(let i=0;i<count;i++){
+        const b = brands[(i*7 + 3) % brands.length];
+        const models = PHONE_DB[b].models;
+        const m = models[(i*11 + 5) % models.length];
+        const os = PHONE_DB[b].type === "iphone" ? "IOS" : "ANDROID";
+
+        const general = rand(145,190);
+        const redDot = rand(110,160);
+        const x2 = rand(70,150);
+        const x4 = rand(90,180);
+        const button = ["SMALL","MEDIUM","LARGE"][rand(0,2)];
+
+        const cardId = bestCardId(b,m);
+
+        const card = document.createElement("div");
+        card.className = "best-card" + (i%6===5 ? " highlight" : "");
+        card.dataset.cardid = cardId;
+
+        card.innerHTML = `
+          <div class="best-head">
+            <div class="best-title">${b} ${m}</div>
+
+            <div class="reactBox">
+              <div class="reactBtns">
+                <button class="reactBtn like" type="button" aria-label="Like">👍</button>
+                <button class="reactBtn dislike" type="button" aria-label="Unlike">👎</button>
+              </div>
+
+              <div class="counts">
+                <span class="y">👍</span> <span class="likeCount">0</span>
+                <span class="sep">•</span>
+                <span class="r">👎</span> <span class="dislikeCount">0</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="os-pill">${os}</div>
+
+          <div class="stats-grid">
+            <div class="stat"><span>General</span><b>${general}</b></div>
+            <div class="stat"><span>Red Dot</span><b>${redDot}</b></div>
+            <div class="stat"><span>2x / 4x</span><b>${x2}/${x4}</b></div>
+            <div class="stat"><span>Button</span><b>${button}</b></div>
+          </div>
+        `;
+
+        list.appendChild(card);
+
+        // init UI with counts hidden until vote
+        const data = loadReacts(cardId);
+        updateReactUI(card, data);
+
+        // handlers
+        card.querySelector(".reactBtn.like").addEventListener("click", () => vote(card, cardId, "like"));
+        card.querySelector(".reactBtn.dislike").addEventListener("click", () => vote(card, cardId, "dislike"));
+      }
+    }
+
+    /* ========= RANK COMBOS ========= */
+    let currentRank = "BR";
+
+    function setRank(rank){
+      currentRank = rank;
+      const brBtn = document.getElementById("brBtn");
+      const csBtn = document.getElementById("csBtn");
+      if(brBtn && csBtn){
+        brBtn.classList.toggle("active", rank==="BR");
+        csBtn.classList.toggle("active", rank==="CS");
+      }
+      renderRankCombos(rank);
+    }
+
+    function charAvatar(name){
+      const base = name.trim().toUpperCase().slice(0,2);
+      const svg = `
+      <svg xmlns="http://www.w3.org/2000/svg" width="140" height="140">
+        <defs>
+          <radialGradient id="rg" cx="30%" cy="30%" r="80%">
+            <stop offset="0" stop-color="#00d5ff"/>
+            <stop offset="1" stop-color="#7c6dff"/>
+          </radialGradient>
+          <filter id="glow" x="-50%" y="-50%" width="200%" height="200%">
+            <feGaussianBlur stdDeviation="7" result="b"/>
+            <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+          </filter>
+        </defs>
+        <rect width="140" height="140" rx="30" fill="#12071b"/>
+        <circle cx="70" cy="70" r="52" fill="url(#rg)" opacity="0.35"/>
+        <circle cx="70" cy="70" r="46" fill="#1a0d26" stroke="rgba(255,255,255,.35)" stroke-width="3"/>
+        <text x="70" y="78" text-anchor="middle" font-family="Arial" font-size="34" font-weight="900" fill="#fff" filter="url(#glow)">${base}</text>
+      </svg>`;
+      return "data:image/svg+xml;charset=utf-8,"+encodeURIComponent(svg);
+    }
+
+    function renderRankCombos(rank){
+      const wrap = document.getElementById("rankCombosWrap");
+      wrap.innerHTML = "";
+      const combos = RANK_COMBOS[rank] || [];
+
+      combos.slice(0,10).forEach((c, idx)=>{
+        const card = document.createElement("div");
+        card.className = "combo-card";
+        card.innerHTML = `
+          <div class="combo-head">
+            <div class="combo-title">${rank} RANK • ${c.role} COMBO ${idx+1}</div>
+            <div class="combo-tag">${c.role}</div>
+          </div>
+          <div class="char-grid">
+            ${c.chars.map(n => `
+              <div class="char">
+                <img src="${charAvatar(n)}" alt="${n}">
+                <div class="char-name">${n}</div>
+              </div>
+            `).join("")}
+          </div>
+        `;
+        wrap.appendChild(card);
+      });
+    }
+
+    // Boot
+    go(location.hash.replace("#","") || "device");
+    setRank("BR");
+  </script>
+</body>
+  </html>
